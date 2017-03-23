@@ -1,0 +1,58 @@
+{
+  "modules": [
+    {
+      "module name": "mqtt",
+      "module path": "nodejs_binding_hl.dll",
+      "args": {
+        "main_path": "mqtt.js",
+        "args": {
+          "LocalAddress": null
+        }
+      }
+    },
+    {
+      "module name": "https",
+      "module path": "nodejs_binding_hl.dll",
+      "args": {
+        "main_path": "https.js",
+        "args": {
+          "LocalAddress": null
+        }
+      }
+    },
+    {
+      "module name": "opc_ua",
+      "module path": "dotnet_hl.dll",
+      "args": {
+        "dotnet_module_path": "Opc.Ua.Module",
+        "dotnet_module_entry_class": "Opc.Ua.Azure.GatewayModule",
+        "dotnet_module_args": [
+          {
+            "ServerUrl": "opc.tcp://<host>:51210/UA/SampleServer",
+            "DeviceId": "<device-id-for-subscription>",
+            "SharedAccessKey": "<sas-key-for-device-id>",
+            "PublishingInterval": 400,
+            "MonitoredItems": [
+              {
+                "StartNodeId": "i=2258",
+                "NodeClass": 2,
+                "DisplayName": "ServerStatusCurrentTime",
+                "DiscardOldest": false,
+                "MonitoringMode": 1
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "module name": "IoTHub",
+      "module path": "iothubhttp_hl.dll",
+      "args": {
+          "IoTHubName": "<your-hub-name>",
+          "IoTHubSuffix": "<your-hub-suffix>",
+          "MinimumPollingTime": "5"
+      }
+    }
+  ]
+}
