@@ -8,8 +8,8 @@ This project has adopted the [Microsoft Open Source Code of Conduct](https://ope
 
 # Sample MQTT and HTTP Gateway modules
 
-This project provides two Gateway modules that expose IoTHub like MQTT and HTTPS endpoints for telemetry upload and in the case of
-MQTT module C2D messaging:
+This project provides two Gateway modules that expose IoTHub-style MQTT and HTTPS endpoints for telemetry upload and in the case of
+MQTT module also C2D messaging:
 
 ## Mqtt broker module
 The Mqtt broker module utilizes [Mosca](https://github.com/mcollina/mosca), version 2.0.2.  
