@@ -114,60 +114,6 @@ Then in the `links` section, patch the module into the message flow:
 }
 ```
 
- 
-# Using IoT C# SDK to connect to the gateway
-
-The following changes are required to connect a device to the gateway using the Azure IoT SDK:
-
-- ### Connection String
-
-    To configure a client to connect to the gateway rather than to IoTHub, use your regular device connection string obtained from the portal
-    or from device explorer application and append ```;GatewayHostName=<hostname_of_gw>``` to it before passing it to the SDK API.  
-    The gateway will transparently pass on the device authorization token to IoT Hub (the first time the device connects and whenever it 
-    expires).
-
-- ### GW Certificate validation
-
-    Unless you use an official TLS server certificate from a known CA in your GW, you will need to add a self-signed certificate to your
-    client machine's trust list.  This is not always desired, nor recommended.  Alternatively, it is possible to change the certificate 
-    validation in the Azure-IoT-Sdks based client code.
-
-    Examples:
-
-    For the Mqtt C# Device Sample, you add the following code which will validate the server certificate received from the Mqtt broker:
-
-    ``` C#
-        ...
-    #if! changed_from_original_source
-        DeviceClient deviceClient = DeviceClient.CreateFromConnectionString(DeviceConnectionString, TransportType.Mqtt);
-    #else
-        var settings = new Microsoft.Azure.Devices.Client.Transport.Mqtt.MqttTransportSettings(TransportType.Mqtt);
-        settings.RemoteCertificateValidationCallback = (sender, certificate, chain, sslPolicyErrors) =>
-        {
-            // TODO: validate self signed certificate which is a X509Certificate!
-            return true;
-        };
-
-        DeviceClient deviceClient = DeviceClient.CreateFromConnectionString(DeviceConnectionString, new ITransportSettings[] { settings });
-    #endif
-        ...
-    ```
-
-    For the HTTP C# Sample, the following change can be made, but will apply to any HTTPs request in the application domain:
-
-    ``` C#
-        ...
-    #if changed_from_original_source
-        System.Net.ServicePointManager.ServerCertificateValidationCallback += (sender, certificate, chain, sslPolicyErrors) =>
-        {
-            // TODO: validate self signed certificate from fgw broker here!
-            return true;
-        };
-    #endif
-        DeviceClient deviceClient = DeviceClient.CreateFromConnectionString(DeviceConnectionString, TransportType.Http1);
-        ...
-    ```
-
 # License
 
 This project is licensed under the [MIT License](LICENSE).
