@@ -1,6 +1,6 @@
 ---
 services: iothub
-platforms: node, dotnet 
+platforms: node 
 author: marcschier
 ---
 
