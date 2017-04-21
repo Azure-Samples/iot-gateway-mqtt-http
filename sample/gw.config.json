@@ -1,0 +1,61 @@
+{
+  "loaders": [
+    {
+      "type": "node",
+      "name": "node"
+    }
+  ],
+  "modules": [
+    {
+      "name": "mqtt",
+      "loader": {
+        "name": "node",
+        "entrypoint": {
+          "main.path": "../mqtt.js"
+        }
+      },
+      "args": {
+          "LocalAddress": null
+      }
+    },
+    {
+      "name": "http",
+      "loader": {
+        "name": "node",
+        "entrypoint": {
+          "main.path": "../https.js"
+        }
+      },
+      "args": {
+          "LocalAddress": null
+      }
+    },
+    {
+      "name": "iothub",
+      "loader": {
+        "name": "node",
+        "entrypoint": {
+          "main.path": "cloud/iothub_writer.js"
+        }
+      },
+      "args": {
+        "connection_string": "<IoT Hub device connection string>"
+      }
+    }
+
+  ],
+  "links": [
+    {
+      "source": "mqtt",
+      "sink": "iothub"
+    },
+    {
+      "source": "iothub",
+      "sink": "mqtt"
+    },
+    {
+      "source": "http",
+      "sink": "iothub"
+    }
+  ]
+}
